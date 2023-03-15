@@ -3,6 +3,7 @@ import speech_recognition as sr
 import datetime
 import os
 import webbrowser
+import wikipedia
 engine=pyttsx3.init('sapi5')
 voices=engine.getProperty('voices')
 #print(voices[0].id)
@@ -44,9 +45,22 @@ wishme()
 if __name__ =="__main__":
     while True:
         query= takecommand().lower()
+        if 'wikipedia' in query:
+            speak("searching wikipedia...")
+            query= query.replace("wikipedia", "")
+            results= wikipedia.summary(query,sentences=2)
+            speak("According to wikipedia")
+            print(results)
+            speak(results)
+            
 
-        if 'open youtube' in query:
+        elif 'open youtube' in query:
             webbrowser.open("youtube.com")
+        
+        elif 'name' in query:
+            speak("My name is jarvis")
+        elif 'what can you do' in query:
+            speak("i can perform various tasks for you such as opening various websites or playing music or search wikipedia for information")
         elif 'open google' in query:
             webbrowser.open("google.com")
         elif 'open amazon' in query:
@@ -62,13 +76,17 @@ if __name__ =="__main__":
         elif 'the time' in query:
             strTime=datetime.datetime.now().strftime("%H:%M:%S")
             speak(f"Sir, the time is {strTime}")
+        elif 'play music' in query:
+            music_dir="C:\\music"
+            songs=os.listdir(music_dir)
+            print(songs)
+            os.startfile(os.path.join(music_dir,songs[0]))
         elif 'open code' in query:
             codepath="C:\\Users\\Hari\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe"
             os.startfile(codepath)
-        elif 'open mail' in query:
-            webbrowser.open("gmail.com")
         else:
             speak("apologies your query was not clear or not available, would you like to open any other websites such as google or spotify? ")
+        
         
         
 
